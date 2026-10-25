@@ -1,16 +1,17 @@
+
 services:
   db:
     image: mysql:8.0
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: rental_motor
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${DB_DATABASE:-rental_motor}
+      MYSQL_USER: ${DB_USERNAME:-laravel}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in root .env}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD in root .env}
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$${MYSQL_ROOT_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -23,14 +24,14 @@ services:
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
-      APP_KEY: ${APP_KEY:?Set APP_KEY in root .env file}
+      APP_KEY: ${APP_KEY:?Set APP_KEY in root .env}
       APP_URL: http://localhost:8080
       DB_CONNECTION: mysql
       DB_HOST: db
       DB_PORT: 3306
-      DB_DATABASE: rental_motor
-      DB_USERNAME: laravel
-      DB_PASSWORD: password
+      DB_DATABASE: ${DB_DATABASE:-rental_motor}
+      DB_USERNAME: ${DB_USERNAME:-laravel}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in root .env}
     depends_on:
       db:
         condition: service_healthy
