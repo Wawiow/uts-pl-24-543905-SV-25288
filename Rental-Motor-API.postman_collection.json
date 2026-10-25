@@ -1,0 +1,342 @@
+{
+  "info": {
+    "_postman_id": "3f27c79a-8fb3-4b49-a44e-6f138cd98ef9",
+    "name": "Rental-Motor-API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49877328"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();\r\n\r\nif (response.token) {\r\n    pm.environment.set(\"token\", response.token);\r\n}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"admin@rentalmotor.test\",\r\n  \"password\": \"password123\"\r\n}\r\n  ",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/logout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "logout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login gagal",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"admin@rentalmotor.test\",\r\n  \"password\": \"password124\"\r\n}\r\n  ",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Motor",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/motors",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "motors"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Motor Gagal",
+      "request": {
+        "auth": {
+          "type": "bearer"
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/motors",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "motors"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Tambah Motor",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Motor berhasil dibuat\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst response = pm.response.json();\r\nconst motor = response.data ?? response;\r\n\r\nif (motor.id) {\r\n    pm.environment.set(\"motor_id\", motor.id);\r\n}\r\n\r\npm.test(\"ID motor tersedia\", function () {\r\n    pm.expect(motor.id).to.exist;\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "\r\n{\r\n  \"name\": \"Honda Vario 125\",\r\n  \"brand\": \"Honda\",\r\n  \"plate_number\": \"AD 1267 AAZ\",\r\n  \"price_per_day\": 120000,\r\n  \"status\": \"available\"\r\n}\r\n  ",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/motors",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "motors"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Tambah Motor Gagal",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Motor berhasil dibuat\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst response = pm.response.json();\r\nconst motor = response.data ?? response;\r\n\r\nif (motor.id) {\r\n    pm.environment.set(\"motor_id\", motor.id);\r\n}\r\n\r\npm.test(\"ID motor tersedia\", function () {\r\n    pm.expect(motor.id).to.exist;\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "\r\n{\r\n  \"name\": \"\",\r\n  \"brand\": \"Honda\",\r\n  \"plate_number\": \"AD 1267 AAZ\",\r\n  \"price_per_day\": 120000,\r\n  \"status\": \"available\"\r\n}\r\n  ",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/motors",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "motors"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Motor by id",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/motors/{{motor_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "motors",
+            "{{motor_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Edit Motor",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"NMAX Connected\",\r\n  \"brand\": \"Yamaha\",\r\n  \"plate_number\": \"AD1234XYZ\",\r\n  \"price_per_day\": 175000,\r\n  \"status\": \"available\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/motors/{{motor_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "motors",
+            "{{motor_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Motor",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/motors/{{motor_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "motors",
+            "{{motor_id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
